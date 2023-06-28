@@ -1,31 +1,27 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
+import userServices from "./userService"
 import { User } from "./userModel"
-import axios from "axios"
 
 interface UserState {
-  userData: User[]
+  users: User[]
   loading: boolean
   error: string | null
 }
 
 const initialState: UserState = {
-  userData: [],
+  users: [],
   loading: false,
   error: null,
 }
 
 export const fetchUsers = createAsyncThunk<User[]>(
   "users/fetchUsers",
-  async (token, { rejectWithValue }) => {
+  async () => {
     try {
-      const response = await axios.get<User[]>("/users", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      return response.data
+      const response = await userServices.fetchUsers()
+      return response
     } catch (error) {
-      return rejectWithValue("Failed to fetch user data.")
+      throw error
     }
   },
 )
@@ -43,7 +39,7 @@ const userSlice = createSlice({
       .addCase(fetchUsers.fulfilled, (state, action) => {
         state.loading = false
         state.error = null
-        state.userData = action.payload
+        state.users = action.payload
       })
       .addCase(fetchUsers.rejected, (state, action) => {
         state.loading = false
