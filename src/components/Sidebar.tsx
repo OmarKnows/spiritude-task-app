@@ -1,5 +1,18 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import { useAppDispatch, useAppSelector } from "../redux/hook"
+import { logout } from "../redux/features/auth/authSlice"
+import { useEffect } from "react"
 const Sidebar = () => {
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
+
+  const { userData } = useAppSelector((state) => state.auth)
+  useEffect(() => {
+    if (!userData) {
+      navigate("/")
+    }
+  }, [userData])
+
   return (
     <div>
       <aside
@@ -49,13 +62,15 @@ const Sidebar = () => {
                 <span className="flex-1 ml-3 whitespace-nowrap">Tasks</span>
               </Link>
             </li>
-            <li>
-              <Link
-                to="/"
-                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
+            <li
+              onClick={() => {
+                dispatch(logout())
+                navigate("/")
+              }}
+            >
+              <div className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                 <span className="flex-1 ml-3 whitespace-nowrap">Logout</span>
-              </Link>
+              </div>
             </li>
           </ul>
         </div>

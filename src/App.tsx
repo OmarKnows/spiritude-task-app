@@ -5,7 +5,12 @@ import Users from "./views/Users"
 import Employees from "./views/Employees"
 import Teams from "./views/Teams"
 import Tasks from "./views/Tasks"
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom"
 
 const App = () => {
   return (
