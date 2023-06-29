@@ -27,7 +27,7 @@ const Login = () => {
   }
 
   useEffect(() => {
-    if (userData) navigate("/admins")
+    if (userData) navigate("/users")
   }, [userData])
 
   return (

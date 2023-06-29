@@ -8,9 +8,7 @@ const Teams = () => {
           Teams
         </h1>
       </div>
-      <div className="mx-3">
-        <ModuleTable />
-      </div>
+      <div className="mx-3">{/* <ModuleTable /> */}</div>
     </div>
   )
 }

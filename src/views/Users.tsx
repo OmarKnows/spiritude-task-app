@@ -1,7 +1,17 @@
-import React from "react"
 import ModuleTable from "../components/ModuleTable"
+import { useEffect } from "react"
+import { useAppDispatch, useAppSelector } from "../redux/hook"
+import { fetchUsers } from "../redux/features/users/usersSlice"
 
 const Users = () => {
+  const dispatch = useAppDispatch()
+  const { users } = useAppSelector((state) => state.user)
+
+  useEffect(() => {
+    dispatch(fetchUsers())
+    console.log(users)
+  }, [])
+
   return (
     <div className="w-[85vw] ml-[15vw]">
       <div className="flex justify-center">
@@ -10,7 +20,7 @@ const Users = () => {
         </h1>
       </div>
       <div className="mx-3">
-        <ModuleTable />
+        <ModuleTable users={users} />
       </div>
     </div>
   )

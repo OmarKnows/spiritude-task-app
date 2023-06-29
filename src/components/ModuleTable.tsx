@@ -17,14 +17,21 @@ const ModuleTable: React.FC<Props> = ({ users }) => {
             <th scope="col" className="px-6 py-3">
               E-Mail
             </th>
+            <th scope="col" className="px-6 py-3">
+              Role
+            </th>
           </tr>
         </thead>
         <tbody>
           {users ? (
             users.map((user) => (
-              <tr className="bg-white border-b white:bg-gray-900 white:border-gray-700">
+              <tr
+                key={user._id}
+                className="bg-white border-b white:bg-gray-900 white:border-gray-700"
+              >
                 <td className="px-6 py-4">{user.name}</td>
                 <td className="px-6 py-4">{user.email}</td>
+                <td className="px-6 py-4">{user.role}</td>
               </tr>
             ))
           ) : (
