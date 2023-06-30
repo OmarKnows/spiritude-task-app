@@ -1,11 +1,14 @@
 import React from "react"
 import { User } from "../redux/features/users/userModel"
+import { useNavigate } from "react-router-dom"
 
 interface Props {
   users: User[]
 }
 
 const ModuleTable: React.FC<Props> = ({ users }) => {
+  const navigate = useNavigate()
+
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -27,6 +30,7 @@ const ModuleTable: React.FC<Props> = ({ users }) => {
             users.map((user) => (
               <tr
                 key={user._id}
+                onClick={() => navigate(`${user._id}`)}
                 className="bg-white border-b white:bg-gray-900 white:border-gray-700"
               >
                 <td className="px-6 py-4">{user.name}</td>

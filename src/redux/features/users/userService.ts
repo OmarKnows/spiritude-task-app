@@ -19,17 +19,29 @@ const fetchUsers = async (): Promise<User[]> => {
   return response.data.payload.data
 }
 
-const addUser = async (
-  name: string,
-  email: string,
-  password: string,
-  role: string,
-): Promise<User> => {
+const fetchUserById = async (id: string): Promise<User> => {
+  const token = getToken()
+
+  const response = await axios.get(`/users/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  return response.data.payload.data
+}
+
+const addUser = async (user: User): Promise<User> => {
   const token = getToken()
 
   const response = await axios.post(
     "/users",
-    { name, email, password, role },
+    {
+      name: user.name,
+      email: user.email,
+      password: user.password,
+      role: user.role,
+    },
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -40,9 +52,45 @@ const addUser = async (
   return response.data.payload.data
 }
 
+const updateUser = async (user: User): Promise<User> => {
+  const token = getToken()
+
+  const response = await axios.patch(
+    `/users/${user._id}`,
+    {
+      name: user.name,
+      email: user.email,
+      password: user.password,
+      role: user.role,
+    },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  )
+
+  return response.data.payload.data
+}
+
+const deleteUser = async (id: string) => {
+  const token = getToken()
+
+  const response = await axios.delete(`users/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  return response.data.payload.data
+}
+
 const userServices = {
   fetchUsers,
+  fetchUserById,
   addUser,
+  updateUser,
+  deleteUser,
 }
 
 export default userServices
