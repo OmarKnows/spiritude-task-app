@@ -1,6 +1,6 @@
 import Sidebar from "./components/Sidebar"
 import Login from "./views/Login"
-import Users from "./views/Users"
+import Users from "./views/Users/Users"
 import Teams from "./views/Teams"
 import Tasks from "./views/Tasks"
 import {
@@ -10,6 +10,7 @@ import {
   Navigate,
 } from "react-router-dom"
 import { useAppSelector } from "./redux/hook"
+import CreateUser from "./views/Users/CreateUser"
 
 const App = () => {
   const { userData } = useAppSelector((state) => state.auth)
@@ -21,6 +22,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/users" element={<Users />} />
+          <Route path="/users/create-user" element={<CreateUser />} />
           <Route path="/teams" element={<Teams />} />
           <Route path="/tasks" element={<Tasks />} />
         </Routes>
