@@ -1,5 +1,5 @@
 import React from "react"
-import ModuleTable from "../components/ModuleTable"
+import ModuleTable from "../../components/ModuleTable"
 
 const Tasks = () => {
   return (

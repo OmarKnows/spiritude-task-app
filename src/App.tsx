@@ -1,8 +1,8 @@
 import Sidebar from "./components/Sidebar"
 import Login from "./views/Login"
 import Users from "./views/Users/Users"
-import Teams from "./views/Teams"
-import Tasks from "./views/Tasks"
+import Teams from "./views/Groups/Groups"
+import Tasks from "./views/Tasks/Tasks"
 import {
   BrowserRouter as Router,
   Routes,
@@ -14,6 +14,7 @@ import CreateUser from "./views/Users/CreateUser"
 import UserDetails from "./views/Users/UserDetails"
 import EditUser from "./views/Users/EditUser"
 import BreadCrumbs from "./components/BreadCrumbs"
+import Groups from "./views/Groups/Groups"
 
 const App = () => {
   const { userData } = useAppSelector((state) => state.auth)
@@ -29,7 +30,7 @@ const App = () => {
           <Route path="/users/:id" element={<UserDetails />} />
           <Route path="/users/:id/edit-user" element={<EditUser />} />
           <Route path="/users/create-user" element={<CreateUser />} />
-          <Route path="/teams" element={<Teams />} />
+          <Route path="/groups" element={<Groups />} />
           <Route path="/tasks" element={<Tasks />} />
         </Routes>
       </Router>

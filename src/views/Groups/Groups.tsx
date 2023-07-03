@@ -1,6 +1,6 @@
-import ModuleTable from "../components/ModuleTable"
+import ModuleTable from "../../components/ModuleTable"
 
-const Teams = () => {
+const Groups = () => {
   return (
     <div className="w-[85vw] ml-[15vw]">
       <div className="flex justify-center">
@@ -13,4 +13,4 @@ const Teams = () => {
   )
 }
 
-export default Teams
+export default Groups
