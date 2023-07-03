@@ -9,6 +9,12 @@ interface Props {
 const ModuleTable: React.FC<Props> = ({ users }) => {
   const navigate = useNavigate()
 
+  const toTitleCase = (str: string): string => {
+    return str
+      .toLowerCase()
+      .replace(/(?:^|\s)\w/g, (match) => match.toUpperCase())
+  }
+
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -23,6 +29,12 @@ const ModuleTable: React.FC<Props> = ({ users }) => {
             <th scope="col" className="px-6 py-3">
               Role
             </th>
+            <th scope="col" className="px-6 py-3">
+              Group
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Total Tasks
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -35,7 +47,11 @@ const ModuleTable: React.FC<Props> = ({ users }) => {
               >
                 <td className="px-6 py-4">{user.name}</td>
                 <td className="px-6 py-4">{user.email}</td>
-                <td className="px-6 py-4">{user.role}</td>
+                <td className="px-6 py-4">{toTitleCase(user.role)}</td>
+                <td className="px-6 py-4">
+                  {user.assignedGroup?.name || "N/A"}
+                </td>
+                <td className="px-6 py-4">{user.totalTasks}</td>
               </tr>
             ))
           ) : (
