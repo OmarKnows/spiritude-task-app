@@ -20,7 +20,6 @@ const CreateUser = () => {
         role,
       }),
     )
-    console.log("dispatched")
   }
 
   return (

@@ -4,16 +4,14 @@ import { User } from "./userModel"
 
 interface UserState {
   users: User[]
-  selectedUser: User | null
+  selectedUser?: User
   loading: boolean
-  error: string | null
+  error?: string
 }
 
 const initialState: UserState = {
   users: [],
-  selectedUser: null,
   loading: false,
-  error: null,
 }
 
 export const fetchUsers = createAsyncThunk<User[]>(
@@ -51,7 +49,13 @@ export const addUser = createAsyncThunk("users/addUser", async (user: User) => {
 
 export const updateUser = createAsyncThunk(
   "users/updateUser",
-  async (user: User) => {
+  async (user: {
+    name: string
+    email: string
+    password: string
+    role: string
+    _id: string
+  }) => {
     try {
       const response = await userServices.updateUser(user)
       return response
@@ -81,11 +85,11 @@ const userSlice = createSlice({
     builder
       .addCase(fetchUsers.pending, (state) => {
         state.loading = true
-        state.error = null
+        state.error = undefined
       })
       .addCase(fetchUsers.fulfilled, (state, action) => {
         state.loading = false
-        state.error = null
+        state.error = undefined
         state.users = action.payload
       })
       .addCase(fetchUsers.rejected, (state, action) => {
@@ -94,11 +98,11 @@ const userSlice = createSlice({
       })
       .addCase(fetchUserById.pending, (state) => {
         state.loading = true
-        state.error = null
+        state.error = undefined
       })
       .addCase(fetchUserById.fulfilled, (state, action) => {
         state.loading = false
-        state.error = null
+        state.error = undefined
         state.selectedUser = action.payload
       })
       .addCase(fetchUserById.rejected, (state, action) => {
@@ -107,11 +111,11 @@ const userSlice = createSlice({
       })
       .addCase(addUser.pending, (state) => {
         state.loading = true
-        state.error = null
+        state.error = undefined
       })
       .addCase(addUser.fulfilled, (state, action) => {
         state.loading = false
-        state.error = null
+        state.error = undefined
         state.selectedUser = action.payload
       })
       .addCase(addUser.rejected, (state, action) => {
@@ -120,11 +124,11 @@ const userSlice = createSlice({
       })
       .addCase(updateUser.pending, (state) => {
         state.loading = true
-        state.error = null
+        state.error = undefined
       })
       .addCase(updateUser.fulfilled, (state, action) => {
         state.loading = false
-        state.error = null
+        state.error = undefined
         state.selectedUser = action.payload
       })
       .addCase(updateUser.rejected, (state, action) => {
@@ -133,12 +137,12 @@ const userSlice = createSlice({
       })
       .addCase(deleteUser.pending, (state) => {
         state.loading = true
-        state.error = null
+        state.error = undefined
       })
       .addCase(deleteUser.fulfilled, (state) => {
         state.loading = false
-        state.error = null
-        state.selectedUser = null
+        state.error = undefined
+        state.selectedUser = undefined
       })
       .addCase(deleteUser.rejected, (state, action) => {
         state.loading = false

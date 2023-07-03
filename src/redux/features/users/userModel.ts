@@ -6,7 +6,7 @@ export interface User {
   email: string
   password?: string
   role: string
-  totalTasks: number
+  totalTasks?: number
   assignedGroup?: Group
   token?: string
 }
