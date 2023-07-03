@@ -12,6 +12,8 @@ import {
 import { useAppSelector } from "./redux/hook"
 import CreateUser from "./views/Users/CreateUser"
 import UserDetails from "./views/Users/UserDetails"
+import EditUser from "./views/Users/EditUser"
+import BreadCrumbs from "./components/BreadCrumbs"
 
 const App = () => {
   const { userData } = useAppSelector((state) => state.auth)
@@ -20,10 +22,12 @@ const App = () => {
     <div>
       <Router>
         {userData ? <Sidebar /> : <Navigate to="/" />}
+        <BreadCrumbs />
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/users" element={<Users />} />
           <Route path="/users/:id" element={<UserDetails />} />
+          <Route path="/users/:id/edit-user" element={<EditUser />} />
           <Route path="/users/create-user" element={<CreateUser />} />
           <Route path="/teams" element={<Teams />} />
           <Route path="/tasks" element={<Tasks />} />
