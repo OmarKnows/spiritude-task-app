@@ -1,8 +1,8 @@
-import ModuleTable from "../../components/ModuleTable"
 import { useEffect } from "react"
 import { useAppDispatch, useAppSelector } from "../../redux/hook"
 import { fetchUsers } from "../../redux/features/users/usersSlice"
 import { useNavigate } from "react-router-dom"
+import UserTable from "../../components/UserTable"
 
 const Users = () => {
   const navigate = useNavigate()
@@ -28,7 +28,7 @@ const Users = () => {
         </button>
       </div>
       <div className="mx-3">
-        <ModuleTable moduleType="user" users={users} />
+        <UserTable users={users} />
       </div>
     </div>
   )

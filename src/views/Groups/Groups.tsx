@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom"
-import ModuleTable from "../../components/ModuleTable"
 import { useAppDispatch, useAppSelector } from "../../redux/hook"
 import { useEffect } from "react"
 import { fetchGroups } from "../../redux/features/groups/groupSlice"
+import GroupTable from "../../components/GroupTable"
 
 const Groups = () => {
   const navigate = useNavigate()
@@ -27,7 +27,7 @@ const Groups = () => {
         </button>
       </div>
       <div className="mx-3">
-        <ModuleTable groups={groups} moduleType="group" />
+        <GroupTable groups={groups} />
       </div>
     </div>
   )
