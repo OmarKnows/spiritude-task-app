@@ -1,12 +1,15 @@
 import React from "react"
 import { User } from "../redux/features/users/userModel"
 import { useNavigate } from "react-router-dom"
+import { Group } from "../redux/features/groups/groupModel"
 
 interface Props {
-  users: User[]
+  moduleType: "user" | "group"
+  users?: User[]
+  groups?: Group[]
 }
 
-const ModuleTable: React.FC<Props> = ({ users }) => {
+const ModuleTable: React.FC<Props> = ({ users, groups, moduleType }) => {
   const navigate = useNavigate()
 
   const toTitleCase = (str: string): string => {
@@ -24,22 +27,28 @@ const ModuleTable: React.FC<Props> = ({ users }) => {
               Name
             </th>
             <th scope="col" className="px-6 py-3">
-              E-Mail
+              {moduleType === "user" ? "Email" : "Description"}
             </th>
             <th scope="col" className="px-6 py-3">
-              Role
+              {moduleType === "user" ? "Role" : "Created By"}
             </th>
-            <th scope="col" className="px-6 py-3">
-              Group
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Total Tasks
-            </th>
+            {moduleType === "user" ? (
+              <>
+                <th scope="col" className="px-6 py-3">
+                  Group
+                </th>
+                <th scope="col" className="px-6 py-3">
+                  Total Tasks
+                </th>
+              </>
+            ) : (
+              <></>
+            )}
           </tr>
         </thead>
         <tbody>
-          {users ? (
-            users.map((user) => (
+          {moduleType === "user" ? (
+            users?.map((user) => (
               <tr
                 key={user._id}
                 onClick={() => navigate(`${user._id}`)}
@@ -52,6 +61,22 @@ const ModuleTable: React.FC<Props> = ({ users }) => {
                   {user.assignedGroup?.name || "N/A"}
                 </td>
                 <td className="px-6 py-4">{user.totalTasks}</td>
+              </tr>
+            ))
+          ) : (
+            <></>
+          )}
+
+          {moduleType === "group" ? (
+            groups?.map((group) => (
+              <tr
+                key={group._id}
+                onClick={() => navigate(`${group._id}`)}
+                className="bg-white border-b white:bg-gray-900 white:border-gray-700"
+              >
+                <td className="px-6 py-4">{group.name}</td>
+                <td className="px-6 py-4">{group.description}</td>
+                <td className="px-6 py-4">{group?.createdBy?.name}</td>
               </tr>
             ))
           ) : (

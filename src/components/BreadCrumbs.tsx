@@ -9,7 +9,7 @@ const BreadCrumbs = () => {
     .filter((crumb) => crumb !== "")
     .map((crumb) => {
       if (crumb.length !== 24) currentLink += `/${crumb}`
-      else crumb = "user details"
+      else crumb = "details"
 
       return (
         <div className="mx-1" key={crumb}>

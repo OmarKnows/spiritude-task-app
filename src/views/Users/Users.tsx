@@ -28,7 +28,7 @@ const Users = () => {
         </button>
       </div>
       <div className="mx-3">
-        <ModuleTable users={users} />
+        <ModuleTable moduleType="user" users={users} />
       </div>
     </div>
   )

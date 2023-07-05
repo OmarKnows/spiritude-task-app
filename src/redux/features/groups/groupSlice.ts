@@ -54,7 +54,12 @@ export const addGroup = createAsyncThunk(
 
 export const updateGroup = createAsyncThunk(
   "users/updateGroup",
-  async (groupData: { group: Group; users: User[] }) => {
+  async (groupData: {
+    name: string
+    description: string
+    users: User[]
+    _id: string
+  }) => {
     try {
       const response = await groupServices.updateGroup(groupData)
       return response

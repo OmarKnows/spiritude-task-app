@@ -53,17 +53,19 @@ const addGroup = async (group: Group, users: User[]): Promise<Group> => {
 }
 
 const updateGroup = async (groupData: {
-  group: Group
+  name: string
+  description: string
   users: User[]
+  _id: string
 }): Promise<Group> => {
   const token = getToken()
 
   const response = await axios.patch(
-    `/groups/${groupData.group._id}`,
+    `/groups/${groupData._id}`,
     {
       users: groupData.users,
-      name: groupData.group.name,
-      description: groupData.group.description,
+      name: groupData.name,
+      description: groupData.description,
     },
     {
       headers: {
