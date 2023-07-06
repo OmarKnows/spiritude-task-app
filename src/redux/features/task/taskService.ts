@@ -32,15 +32,19 @@ const fetchTasksById = async (id: string): Promise<Task> => {
   return response.data.payload.data
 }
 
-const addTask = async (task: Task, user: User): Promise<Task> => {
+const addTask = async (
+  user: string,
+  dueDate: string | undefined,
+  details: string,
+): Promise<Task> => {
   const token = getToken()
 
   const response = await axios.post(
     "/tasks",
     {
-      user: user,
-      dueDate: task.dueDate,
-      details: task.details,
+      user,
+      dueDate,
+      details,
     },
     {
       headers: {
