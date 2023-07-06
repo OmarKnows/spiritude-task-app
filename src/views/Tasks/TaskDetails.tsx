@@ -2,6 +2,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../redux/hook"
 import { useEffect } from "react"
 import { deleteTask, fetchTasksById } from "../../redux/features/task/taskSlice"
+import StatusPill from "../../components/StatusPill"
 
 const TaskDetails = () => {
   const dispatch = useAppDispatch()
@@ -51,16 +52,16 @@ const TaskDetails = () => {
                   {selectedTask?.details}
                 </dd>
               </div>
-              <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-medium text-gray-500">Status</dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  {selectedTask?.status}
+                  <StatusPill status={selectedTask?.status} />
                 </dd>
               </div>
               <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-medium text-gray-500">Due Date</dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  {selectedTask?.dueDate}
+                  {selectedTask?.dueDate.substring(0, 10)}
                 </dd>
               </div>
               <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

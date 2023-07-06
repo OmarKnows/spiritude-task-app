@@ -1,11 +1,11 @@
 import React from "react"
 
 interface Props {
-  status: "TODO" | "IN_PROGRESS" | "DONE" | "PENDING_DELETE"
+  status: "TODO" | "IN_PROGRESS" | "DONE" | "PENDING_DELETE" | undefined
 }
 
 const renderStatus = (
-  status: "TODO" | "IN_PROGRESS" | "DONE" | "PENDING_DELETE",
+  status: "TODO" | "IN_PROGRESS" | "DONE" | "PENDING_DELETE" | undefined,
 ) => {
   switch (status) {
     case "TODO":

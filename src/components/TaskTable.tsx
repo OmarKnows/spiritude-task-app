@@ -43,7 +43,7 @@ const TaskTable: React.FC<Props> = ({ tasks }) => {
               <td className="px-6 py-4">
                 <StatusPill status={task.status} />
               </td>
-              <td className="px-6 py-4">{task.dueDate}</td>
+              <td className="px-6 py-4">{task.dueDate.substring(0, 10)}</td>
               <td className="px-6 py-4">{task.user.name}</td>
               <td className="px-6 py-4">{task.createdBy.name}</td>
             </tr>

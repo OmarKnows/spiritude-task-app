@@ -6,14 +6,14 @@ import { User } from "../users/userModel"
 interface taskState {
   tasks: Task[]
   selectedTask?: Task
-  areTasksPastDue: boolean
+  tasksPastDue: boolean
   loading: boolean
   error?: string
 }
 
 const initialState: taskState = {
   tasks: [],
-  areTasksPastDue: false,
+  tasksPastDue: false,
   loading: false,
 }
 
@@ -178,7 +178,7 @@ const taskSlice = createSlice({
       .addCase(areTasksPastDue.fulfilled, (state, action) => {
         state.loading = false
         state.error = undefined
-        state.areTasksPastDue = action.payload
+        state.tasksPastDue = action.payload
       })
       .addCase(areTasksPastDue.rejected, (state, action) => {
         state.loading = false

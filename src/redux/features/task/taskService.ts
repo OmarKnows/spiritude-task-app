@@ -104,7 +104,7 @@ const areTasksPastDue = async (): Promise<boolean> => {
     },
   })
 
-  return response.data.payload.data
+  return response.data.payload.data.areTasksPastDue
 }
 
 const taskServices = {

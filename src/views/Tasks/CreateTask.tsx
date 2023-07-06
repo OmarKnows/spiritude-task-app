@@ -26,12 +26,10 @@ const CreateTask = () => {
         details,
       }),
     )
-    console.log(selectedDate?.toISOString())
   }
 
   const handleChange = (value: any) => {
     setSelectedUser(value)
-    console.log(selectedUser)
   }
 
   useEffect(() => {

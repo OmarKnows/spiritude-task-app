@@ -13,21 +13,31 @@ import EditUser from "./views/Users/EditUser"
 import EditGroup from "./views/Groups/EditGroup"
 import EditTask from "./views/Tasks/EditTask"
 import BreadCrumbs from "./components/BreadCrumbs"
-import { useAppSelector } from "./redux/hook"
+import { useAppDispatch, useAppSelector } from "./redux/hook"
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
 } from "react-router-dom"
+import DueBanner from "./components/DueBanner"
+import { useEffect } from "react"
+import { areTasksPastDue } from "./redux/features/task/taskSlice"
 
 const App = () => {
   const { userData } = useAppSelector((state) => state.auth)
+  const { tasksPastDue } = useAppSelector((state) => state.task)
+  const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    dispatch(areTasksPastDue())
+  }, [])
 
   return (
     <div>
       <Router>
         {userData ? <Sidebar /> : <Navigate to="/" />}
+        {userData && !tasksPastDue ? <DueBanner /> : <></>}
         <BreadCrumbs />
         <Routes>
           <Route path="/" element={<Login />} />

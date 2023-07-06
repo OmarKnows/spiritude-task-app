@@ -1,7 +1,10 @@
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../redux/hook"
-import { fetchTasks } from "../../redux/features/task/taskSlice"
+import {
+  areTasksPastDue,
+  fetchTasks,
+} from "../../redux/features/task/taskSlice"
 import TaskTable from "../../components/TaskTable"
 
 const Tasks = () => {
@@ -15,7 +18,6 @@ const Tasks = () => {
 
   return (
     <div className="w-[85vw] ml-[15vw]">
-      <div>test</div>
       <div className="flex justify-between m-3">
         <h1 className="mb-4 text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl">
           Tasks
