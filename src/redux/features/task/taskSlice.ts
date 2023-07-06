@@ -6,12 +6,14 @@ import { User } from "../users/userModel"
 interface taskState {
   tasks: Task[]
   selectedTask?: Task
+  areTasksPastDue: boolean
   loading: boolean
   error?: string
 }
 
 const initialState: taskState = {
   tasks: [],
+  areTasksPastDue: false,
   loading: false,
 }
 
@@ -82,6 +84,18 @@ export const deleteTask = createAsyncThunk(
   },
 )
 
+export const areTasksPastDue = createAsyncThunk(
+  "tasks/areTasksPastDue",
+  async () => {
+    try {
+      const response = await taskServices.areTasksPastDue()
+      return response
+    } catch (error) {
+      throw error
+    }
+  },
+)
+
 const taskSlice = createSlice({
   name: "task",
   initialState,
@@ -99,7 +113,7 @@ const taskSlice = createSlice({
       })
       .addCase(fetchTasks.rejected, (state, action) => {
         state.loading = false
-        state.error = action.error.message ?? "Failed to fetch user data"
+        state.error = action.error.message ?? "Failed to fetch task data"
       })
       .addCase(fetchTasksById.pending, (state) => {
         state.loading = true
@@ -112,7 +126,7 @@ const taskSlice = createSlice({
       })
       .addCase(fetchTasksById.rejected, (state, action) => {
         state.loading = false
-        state.error = action.error.message ?? "Failed to fetch user data"
+        state.error = action.error.message ?? "Failed to fetch task data"
       })
       .addCase(addTask.pending, (state) => {
         state.loading = true
@@ -125,7 +139,7 @@ const taskSlice = createSlice({
       })
       .addCase(addTask.rejected, (state, action) => {
         state.loading = false
-        state.error = action.error.message ?? "Failed to fetch user data"
+        state.error = action.error.message ?? "Failed to fetch task data"
       })
       .addCase(updateTask.pending, (state) => {
         state.loading = true
@@ -138,7 +152,7 @@ const taskSlice = createSlice({
       })
       .addCase(updateTask.rejected, (state, action) => {
         state.loading = false
-        state.error = action.error.message ?? "Failed to fetch user data"
+        state.error = action.error.message ?? "Failed to fetch task data"
       })
       .addCase(deleteTask.pending, (state) => {
         state.loading = true
@@ -151,7 +165,20 @@ const taskSlice = createSlice({
       })
       .addCase(deleteTask.rejected, (state, action) => {
         state.loading = false
-        state.error = action.error.message ?? "Failed to fetch user data"
+        state.error = action.error.message ?? "Failed to fetch task data"
+      })
+      .addCase(areTasksPastDue.pending, (state) => {
+        state.loading = true
+        state.error = undefined
+      })
+      .addCase(areTasksPastDue.fulfilled, (state, action) => {
+        state.loading = false
+        state.error = undefined
+        state.areTasksPastDue = action.payload
+      })
+      .addCase(areTasksPastDue.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.error.message ?? "Failed to fetch task data"
       })
   },
 })

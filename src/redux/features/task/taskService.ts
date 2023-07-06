@@ -91,12 +91,25 @@ const deleteTask = async (id: string) => {
   return response.data.payload.data
 }
 
+const areTasksPastDue = async (): Promise<boolean> => {
+  const token = getToken()
+
+  const response = await axios.get("tasks/past-due", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  return response.data.payload.data
+}
+
 const taskServices = {
   fetchTasks,
   fetchTasksById,
   addTask,
   updateTask,
   deleteTask,
+  areTasksPastDue,
 }
 
 export default taskServices
