@@ -42,13 +42,13 @@ export const fetchGroupById = createAsyncThunk(
 export const addGroup = createAsyncThunk(
   "groups/addGroup",
   async (groupData: {
-    users: string[] | undefined
+    users?: string[]
     name: string
     description: string
   }) => {
     const { users, name, description } = groupData
     try {
-      const response = await groupServices.addGroup(users, name, description)
+      const response = await groupServices.addGroup(name, description, users)
       return response
     } catch (error) {
       throw error
@@ -61,7 +61,7 @@ export const updateGroup = createAsyncThunk(
   async (groupData: {
     name: string
     description: string
-    users: any[] | undefined
+    users?: string[]
     _id: string
   }) => {
     try {

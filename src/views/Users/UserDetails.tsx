@@ -16,7 +16,7 @@ const UserDetails = () => {
     if (id) dispatch(deleteUser(id))
   }
 
-  const toTitleCase = (str: string | undefined): string | undefined => {
+  const toTitleCase = (str?: string): string | undefined => {
     if (str !== undefined)
       return str
         .toLowerCase()

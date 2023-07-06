@@ -43,14 +43,10 @@ export const fetchTasksById = createAsyncThunk(
 
 export const addTask = createAsyncThunk(
   "tasks/addTasks",
-  async (taskData: {
-    user: string
-    dueDate: string | undefined
-    details: string
-  }) => {
+  async (taskData: { user: string; details: string; dueDate?: string }) => {
     const { user, dueDate, details } = taskData
     try {
-      const response = await taskServices.addTask(user, dueDate, details)
+      const response = await taskServices.addTask(user, details, dueDate)
       return response
     } catch (error) {
       throw error
@@ -61,11 +57,11 @@ export const addTask = createAsyncThunk(
 export const updateTask = createAsyncThunk(
   "tasks/updateTask",
   async (task: {
-    status: "TODO" | "IN_PROGRESS" | "DONE" | "PENDING_DELETE" | undefined
-    details: string | undefined
-    dueDate: string | undefined
-    user: string | undefined
-    _id: string | undefined
+    status?: "TODO" | "IN_PROGRESS" | "DONE" | "PENDING_DELETE"
+    details?: string
+    dueDate?: string
+    user?: string
+    _id?: string
   }) => {
     try {
       const response = await taskServices.updateTask(task)

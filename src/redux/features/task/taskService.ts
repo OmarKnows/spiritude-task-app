@@ -34,8 +34,8 @@ const fetchTasksById = async (id: string): Promise<Task> => {
 
 const addTask = async (
   user: string,
-  dueDate: string | undefined,
   details: string,
+  dueDate?: string,
 ): Promise<Task> => {
   const token = getToken()
 
@@ -57,11 +57,11 @@ const addTask = async (
 }
 
 const updateTask = async (task: {
-  status: "TODO" | "IN_PROGRESS" | "DONE" | "PENDING_DELETE" | undefined
-  details: string | undefined
-  dueDate: string | undefined
-  user: string | undefined
-  _id: string | undefined
+  status?: "TODO" | "IN_PROGRESS" | "DONE" | "PENDING_DELETE"
+  details?: string
+  dueDate?: string
+  user?: string
+  _id?: string
 }): Promise<Task> => {
   const token = getToken()
 

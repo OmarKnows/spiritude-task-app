@@ -28,7 +28,7 @@ const EditGroup = () => {
         name,
         description,
         _id: id,
-        users: groupMembers?.map((user) => user.value),
+        users: groupMembers?.map((user) => user.value) || [],
       }),
     )
   }

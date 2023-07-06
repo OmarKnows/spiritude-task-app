@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"
 import { User } from "../redux/features/users/userModel"
 
 interface Props {
-  users: User[] | undefined
+  users?: User[]
   groupDetails: boolean
 }
 
