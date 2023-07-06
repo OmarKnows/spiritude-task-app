@@ -17,13 +17,13 @@ const Tasks = () => {
     <div className="w-[85vw] ml-[15vw]">
       <div className="flex justify-between m-3">
         <h1 className="mb-4 text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl">
-          Groups
+          Tasks
         </h1>
         <button
-          onClick={() => navigate("create-group")}
+          onClick={() => navigate("create-task")}
           className="bg-green-300 hover:bg-green-500 text-white font-bold py-2 px-4 rounded"
         >
-          Add Group
+          Add Task
         </button>
       </div>
       <div className="mx-3">
