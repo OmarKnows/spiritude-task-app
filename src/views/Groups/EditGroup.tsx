@@ -35,7 +35,6 @@ const EditGroup = () => {
 
   const handleChange = (value: any) => {
     setGroupMembers(value)
-    console.log(groupMembers)
   }
 
   useEffect(() => {

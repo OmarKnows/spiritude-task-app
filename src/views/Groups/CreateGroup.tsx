@@ -1,27 +1,41 @@
-import { useState } from "react"
-import { useAppDispatch } from "../../redux/hook"
+import { useEffect, useState } from "react"
+import { useAppDispatch, useAppSelector } from "../../redux/hook"
 import { addGroup } from "../../redux/features/groups/groupSlice"
+import { fetchUsers } from "../../redux/features/users/usersSlice"
+import Select from "react-tailwindcss-select"
+import "react-tailwindcss-select/dist/index.css"
 
 const CreateGroup = () => {
   const dispatch = useAppDispatch()
+  const { users } = useAppSelector((state) => state.user)
 
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
+  const [groupMembers, setGroupMembers] = useState<any[] | null>(null)
+  const [options, setOptions] = useState<any[]>([])
 
   const submitHandler = (e: any) => {
     e.preventDefault()
     dispatch(
       addGroup({
-        group: {
-          name,
-          description,
-        },
-        users: [],
+        users: groupMembers?.map((user) => user.value),
+        name,
+        description,
       }),
     )
   }
+
+  const handleChange = (value: any) => {
+    setGroupMembers(value)
+  }
+
+  useEffect(() => {
+    dispatch(fetchUsers)
+    setOptions(users.map((user) => ({ value: user._id, label: user.name })))
+  }, [])
+
   return (
-    <div className="w-[85vw] ml-[15vw] bg-white max-w shadow overflow-hidden sm:rounded-lg">
+    <div className="w-[85vw] ml-[15vw]">
       <div className="flex justify-between  px-4 py-5 sm:px-6">
         <h1 className="mb-4 text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl">
           Add Group
@@ -46,7 +60,25 @@ const CreateGroup = () => {
               />
             </div>
 
-            <div className="w-full md:w-1/2 px-3">
+            <div className="w-full md:w-1/2 px-3  mb-6">
+              <label
+                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                htmlFor="grid-last-name"
+              >
+                Users
+              </label>
+
+              <Select
+                value={groupMembers}
+                onChange={handleChange}
+                isMultiple
+                options={options}
+                isSearchable={true}
+                primaryColor={"Indigo"}
+              />
+            </div>
+
+            <div className="w-full  px-3">
               <label
                 className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                 htmlFor="grid-last-name"

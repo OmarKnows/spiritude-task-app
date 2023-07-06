@@ -32,15 +32,19 @@ const fetchGroupById = async (id: string): Promise<Group> => {
   return response.data.payload.data
 }
 
-const addGroup = async (group: Group, users: User[]): Promise<Group> => {
+const addGroup = async (
+  users: string[] | undefined,
+  name: string,
+  description: string,
+): Promise<Group> => {
   const token = getToken()
 
   const response = await axios.post(
     "/groups",
     {
       users,
-      name: group.name,
-      description: group.description,
+      name,
+      description,
     },
     {
       headers: {
