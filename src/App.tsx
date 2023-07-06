@@ -37,7 +37,7 @@ const App = () => {
     <div>
       <Router>
         {userData ? <Sidebar /> : <Navigate to="/" />}
-        {userData && !tasksPastDue ? <DueBanner /> : <></>}
+        {userData && tasksPastDue ? <DueBanner /> : <></>}
         <BreadCrumbs />
         <Routes>
           <Route path="/" element={<Login />} />

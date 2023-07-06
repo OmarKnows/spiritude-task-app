@@ -1,7 +1,11 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../redux/hook"
 import { useEffect } from "react"
-import { deleteTask, fetchTasksById } from "../../redux/features/task/taskSlice"
+import {
+  deleteTask,
+  fetchTasksById,
+  updateTask,
+} from "../../redux/features/task/taskSlice"
 import StatusPill from "../../components/StatusPill"
 
 const TaskDetails = () => {

@@ -58,10 +58,10 @@ const addTask = async (
 
 const updateTask = async (task: {
   status: "TODO" | "IN_PROGRESS" | "DONE" | "PENDING_DELETE" | undefined
-  details: string
+  details: string | undefined
   dueDate: string | undefined
-  user: string
-  _id: string
+  user: string | undefined
+  _id: string | undefined
 }): Promise<Task> => {
   const token = getToken()
 
