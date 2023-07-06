@@ -55,7 +55,7 @@ const addGroup = async (group: Group, users: User[]): Promise<Group> => {
 const updateGroup = async (groupData: {
   name: string
   description: string
-  users: User[]
+  users: any[] | undefined
   _id: string
 }): Promise<Group> => {
   const token = getToken()

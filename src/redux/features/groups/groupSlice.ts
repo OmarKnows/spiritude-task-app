@@ -57,7 +57,7 @@ export const updateGroup = createAsyncThunk(
   async (groupData: {
     name: string
     description: string
-    users: User[]
+    users: any[] | undefined
     _id: string
   }) => {
     try {
