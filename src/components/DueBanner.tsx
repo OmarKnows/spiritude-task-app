@@ -8,7 +8,7 @@ const DueBanner = () => {
   return (
     <div>
       {showBanner ? (
-        <div className="flex justify-between overflow-hidden bg-orange-600 w-[85vw] ml-[15vw] py-3">
+        <div className="flex justify-between overflow-hidden bg-orange-600 py-3">
           <div></div>
           <div className="flex items-center ml-2">
             <p className="text-md text-gray-900">You have tasks past due!</p>
