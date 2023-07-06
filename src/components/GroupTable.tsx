@@ -30,7 +30,7 @@ const GroupTable: React.FC<Props> = ({ groups }) => {
             <tr
               key={group._id}
               onClick={() => navigate(`${group._id}`)}
-              className="bg-white border-b white:bg-gray-900 white:border-gray-700"
+              className="bg-white border-b white:bg-gray-900 white:border-gray-700 cursor-pointer"
             >
               <td className="px-6 py-4">{group.name}</td>
               <td className="px-6 py-4">{group.description}</td>

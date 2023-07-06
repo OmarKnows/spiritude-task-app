@@ -36,7 +36,7 @@ const TaskTable: React.FC<Props> = ({ tasks }) => {
             <tr
               key={task._id}
               onClick={() => navigate(`${task._id}`)}
-              className="bg-white border-b white:bg-gray-900 white:border-gray-700"
+              className="bg-white border-b white:bg-gray-900 white:border-gray-700 cursor-pointer"
             >
               <td className="px-6 py-4">{task.details}</td>
               <td className="px-6 py-4">{task.status}</td>

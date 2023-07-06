@@ -3,10 +3,11 @@ import { useNavigate } from "react-router-dom"
 import { User } from "../redux/features/users/userModel"
 
 interface Props {
-  users: User[]
+  users: User[] | undefined
+  groupDetails: boolean
 }
 
-const UserTable: React.FC<Props> = ({ users }) => {
+const UserTable: React.FC<Props> = ({ users, groupDetails }) => {
   const navigate = useNavigate()
 
   const toTitleCase = (str: string): string => {
@@ -29,9 +30,13 @@ const UserTable: React.FC<Props> = ({ users }) => {
             <th scope="col" className="px-6 py-3">
               Role
             </th>
-            <th scope="col" className="px-6 py-3">
-              Group
-            </th>
+            {groupDetails ? (
+              <></>
+            ) : (
+              <th scope="col" className="px-6 py-3">
+                Group
+              </th>
+            )}
             <th scope="col" className="px-6 py-3">
               Total Tasks
             </th>
@@ -41,13 +46,17 @@ const UserTable: React.FC<Props> = ({ users }) => {
           {users?.map((user) => (
             <tr
               key={user._id}
-              onClick={() => navigate(`${user._id}`)}
-              className="bg-white border-b white:bg-gray-900 white:border-gray-700"
+              onClick={() => navigate(`/users/${user._id}`)}
+              className="bg-white border-b white:bg-gray-900 white:border-gray-700 cursor-pointer"
             >
               <td className="px-6 py-4">{user.name}</td>
               <td className="px-6 py-4">{user.email}</td>
               <td className="px-6 py-4">{toTitleCase(user.role)}</td>
-              <td className="px-6 py-4">{user.assignedGroup?.name}</td>
+              {groupDetails ? (
+                <></>
+              ) : (
+                <td className="px-6 py-4">{user.assignedGroup?.name}</td>
+              )}
               <td className="px-6 py-4">{user.totalTasks}</td>
             </tr>
           ))}

@@ -9,6 +9,7 @@ import {
   deleteGroup,
   fetchGroupById,
 } from "../../redux/features/groups/groupSlice"
+import UserTable from "../../components/UserTable"
 
 const GroupDetails = () => {
   const dispatch = useAppDispatch()
@@ -58,7 +59,7 @@ const GroupDetails = () => {
                   {selectedGroup?.name}
                 </dd>
               </div>
-              <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+              <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-medium text-gray-500">
                   Description
                 </dt>
@@ -74,10 +75,15 @@ const GroupDetails = () => {
                   {selectedGroup?.createdBy?.name}
                 </dd>
               </div>
+              <div className="flex justify-between m-3">
+                <h6 className="mb-4 text-xl font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl">
+                  Users
+                </h6>
+              </div>
               <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-medium text-gray-500">Users</dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  {selectedGroup?.users?.map((user) => user.name)}
+                  <UserTable groupDetails={true} users={selectedGroup?.users} />
                 </dd>
               </div>
             </dl>
