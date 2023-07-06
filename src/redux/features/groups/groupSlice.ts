@@ -16,7 +16,7 @@ const initialState: GroupState = {
 }
 
 export const fetchGroups = createAsyncThunk<Group[]>(
-  "users/fetchGroups",
+  "groups/fetchGroups",
   async () => {
     try {
       const response = await groupServices.fetchGroups()
@@ -28,7 +28,7 @@ export const fetchGroups = createAsyncThunk<Group[]>(
 )
 
 export const fetchGroupById = createAsyncThunk(
-  "users/fetchGroupById",
+  "groups/fetchGroupById",
   async (id: string) => {
     try {
       const response = await groupServices.fetchGroupById(id)
@@ -40,7 +40,7 @@ export const fetchGroupById = createAsyncThunk(
 )
 
 export const addGroup = createAsyncThunk(
-  "users/addGroup",
+  "groups/addGroup",
   async (groupData: { group: Group; users: User[] }) => {
     const { group, users } = groupData
     try {
@@ -53,7 +53,7 @@ export const addGroup = createAsyncThunk(
 )
 
 export const updateGroup = createAsyncThunk(
-  "users/updateGroup",
+  "groups/updateGroup",
   async (groupData: {
     name: string
     description: string
@@ -70,7 +70,7 @@ export const updateGroup = createAsyncThunk(
 )
 
 export const deleteGroup = createAsyncThunk(
-  "users/deleteUser",
+  "groups/deleteUser",
   async (id: string) => {
     try {
       const response = await groupServices.deleteGroup(id)
@@ -98,7 +98,7 @@ const userSlice = createSlice({
       })
       .addCase(fetchGroups.rejected, (state, action) => {
         state.loading = false
-        state.error = action.error.message ?? "Failed to fetch user data"
+        state.error = action.error.message ?? "Failed to fetch group data"
       })
       .addCase(fetchGroupById.pending, (state) => {
         state.loading = true
@@ -111,7 +111,7 @@ const userSlice = createSlice({
       })
       .addCase(fetchGroupById.rejected, (state, action) => {
         state.loading = false
-        state.error = action.error.message ?? "Failed to fetch user data"
+        state.error = action.error.message ?? "Failed to fetch group data"
       })
       .addCase(addGroup.pending, (state) => {
         state.loading = true
@@ -124,7 +124,7 @@ const userSlice = createSlice({
       })
       .addCase(addGroup.rejected, (state, action) => {
         state.loading = false
-        state.error = action.error.message ?? "Failed to fetch user data"
+        state.error = action.error.message ?? "Failed to fetch group data"
       })
       .addCase(updateGroup.pending, (state) => {
         state.loading = true
@@ -137,7 +137,7 @@ const userSlice = createSlice({
       })
       .addCase(updateGroup.rejected, (state, action) => {
         state.loading = false
-        state.error = action.error.message ?? "Failed to fetch user data"
+        state.error = action.error.message ?? "Failed to fetch group data"
       })
       .addCase(deleteGroup.pending, (state) => {
         state.loading = true
@@ -150,7 +150,7 @@ const userSlice = createSlice({
       })
       .addCase(deleteGroup.rejected, (state, action) => {
         state.loading = false
-        state.error = action.error.message ?? "Failed to fetch user data"
+        state.error = action.error.message ?? "Failed to fetch group data"
       })
   },
 })
