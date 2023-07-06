@@ -60,15 +60,15 @@ export const addTask = createAsyncThunk(
 
 export const updateTask = createAsyncThunk(
   "tasks/updateTask",
-  async (updateTask: {
-    status: string
+  async (task: {
+    status: "TODO" | "IN_PROGRESS" | "DONE" | "PENDING_DELETE" | undefined
     details: string
-    dueDate: string
-    user: User
+    dueDate: string | undefined
+    user: string
     _id: string
   }) => {
     try {
-      const response = await taskServices.updateTask(updateTask)
+      const response = await taskServices.updateTask(task)
       return response
     } catch (error) {
       throw error

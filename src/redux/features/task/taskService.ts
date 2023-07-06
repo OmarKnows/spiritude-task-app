@@ -56,22 +56,22 @@ const addTask = async (
   return response.data.payload.data
 }
 
-const updateTask = async (taskData: {
-  status: string
+const updateTask = async (task: {
+  status: "TODO" | "IN_PROGRESS" | "DONE" | "PENDING_DELETE" | undefined
   details: string
-  dueDate: string
-  user: User
+  dueDate: string | undefined
+  user: string
   _id: string
 }): Promise<Task> => {
   const token = getToken()
 
   const response = await axios.patch(
-    `/tasks/${taskData._id}`,
+    `/tasks/${task._id}`,
     {
-      status: taskData.status,
-      details: taskData.details,
-      dueDate: taskData.dueDate,
-      user: taskData.user,
+      status: task.status,
+      details: task.details,
+      dueDate: task.dueDate,
+      user: task.user,
     },
     {
       headers: {
