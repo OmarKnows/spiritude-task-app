@@ -30,7 +30,7 @@ const GroupDetails = () => {
   return (
     <div>
       <div className="w-[85vw] ml-[15vw]">
-        <div className="bg-white max-w shadow overflow-hidden sm:rounded-lg">
+        <div className="bg-white max-w">
           <div className="flex justify-between  px-4 py-5 sm:px-6">
             <h1 className="mb-4 text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl">
               Group Details
@@ -77,12 +77,18 @@ const GroupDetails = () => {
               </div>
               <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-medium text-gray-500">Users</dt>
-                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  <UserTable groupDetails={true} users={selectedGroup?.users} />
-                </dd>
+                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2"></dd>
               </div>
             </dl>
           </div>
+        </div>
+        <div className="px-4 py-5 sm:px-6">
+          <div className="flex justify-between  ">
+            <h1 className="mb-4 text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-3xl lg:text-4xl">
+              Users
+            </h1>
+          </div>
+          <UserTable groupDetails={true} users={selectedGroup?.users} />
         </div>
       </div>
     </div>
