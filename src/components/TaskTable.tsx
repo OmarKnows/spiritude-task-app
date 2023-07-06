@@ -1,6 +1,7 @@
 import React from "react"
 import { useNavigate } from "react-router-dom"
 import { Task } from "../redux/features/task/taskModel"
+import StatusPill from "./StatusPill"
 
 interface Props {
   tasks: Task[]
@@ -39,7 +40,9 @@ const TaskTable: React.FC<Props> = ({ tasks }) => {
               className="bg-white border-b white:bg-gray-900 white:border-gray-700 cursor-pointer"
             >
               <td className="px-6 py-4">{task.details}</td>
-              <td className="px-6 py-4">{task.status}</td>
+              <td className="px-6 py-4">
+                <StatusPill status={task.status} />
+              </td>
               <td className="px-6 py-4">{task.dueDate}</td>
               <td className="px-6 py-4">{task.user.name}</td>
               <td className="px-6 py-4">{task.createdBy.name}</td>
