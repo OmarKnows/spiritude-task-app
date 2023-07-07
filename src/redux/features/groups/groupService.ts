@@ -1,5 +1,4 @@
 import axios from "axios"
-import { User } from "../users/userModel"
 import { Group } from "./groupModel"
 
 const getToken = (): string | null => {
@@ -8,16 +7,14 @@ const getToken = (): string | null => {
   return userData ? userData.accessToken : null
 }
 
-const fetchGroups = async (): Promise<Group[]> => {
+const fetchGroups = async (page: number, limit: number) => {
   const token = getToken()
-
-  const response = await axios.get("/groups", {
+  const response = await axios.get(`/groups?page=${page}&limit=${limit}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   })
-
-  return response.data.payload.data
+  return response.data.payload
 }
 
 const fetchGroupById = async (id: string): Promise<Group> => {

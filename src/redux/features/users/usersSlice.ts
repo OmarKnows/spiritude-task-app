@@ -5,20 +5,46 @@ import { User } from "./userModel"
 interface UserState {
   users: User[]
   selectedUser?: User
+  total: number
+  page: number
+  limit: number
+  pages: number
   loading: boolean
   error?: string
 }
 
 const initialState: UserState = {
   users: [],
+  total: 0,
+  page: 1,
+  limit: 10,
+  pages: 0,
   loading: false,
 }
 
-export const fetchUsers = createAsyncThunk<User[]>(
+export const fetchUsers = createAsyncThunk(
   "users/fetchUsers",
-  async () => {
+  async (pagination: { page: number; limit: number }) => {
     try {
-      const response = await userServices.fetchUsers()
+      const response = await userServices.fetchUsers(
+        pagination.page,
+        pagination.limit,
+      )
+      return response
+    } catch (error) {
+      throw error
+    }
+  },
+)
+
+export const populateDropdown = createAsyncThunk(
+  "users/populateDropdown",
+  async (pagination: { page: number; limit: number }) => {
+    try {
+      const response = await userServices.fetchUsers(
+        pagination.page,
+        pagination.limit,
+      )
       return response
     } catch (error) {
       throw error
@@ -90,9 +116,36 @@ const userSlice = createSlice({
       .addCase(fetchUsers.fulfilled, (state, action) => {
         state.loading = false
         state.error = undefined
-        state.users = action.payload
+        state.users = action.payload.data
+        state.total = action.payload.total
+        state.page = action.payload.page
+        state.limit = action.payload.limit
+        state.pages = action.payload.pages
       })
       .addCase(fetchUsers.rejected, (state, action) => {
+        state.loading = false
+        state.error = action.error.message ?? "Failed to fetch user data"
+      })
+      .addCase(populateDropdown.pending, (state) => {
+        state.loading = true
+        state.error = undefined
+      })
+      .addCase(populateDropdown.fulfilled, (state, action) => {
+        const { data, ...restOfPayload } = action.payload
+        console.log({
+          loading: false,
+          error: undefined,
+          ...restOfPayload,
+          users: (state.users || []).concat(data),
+        })
+        return {
+          loading: false,
+          error: undefined,
+          ...restOfPayload,
+          users: (state.users || []).concat(data),
+        }
+      })
+      .addCase(populateDropdown.rejected, (state, action) => {
         state.loading = false
         state.error = action.error.message ?? "Failed to fetch user data"
       })

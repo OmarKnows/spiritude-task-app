@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit"
+import { composeWithDevTools } from "redux-devtools-extension"
 import userReducer from "./features/users/usersSlice"
 import groupReducer from "./features/groups/groupSlice"
 import taskReducer from "./features/task/taskSlice"

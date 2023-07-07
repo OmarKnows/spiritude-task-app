@@ -18,6 +18,14 @@ const TaskDetails = () => {
     if (id) dispatch(deleteTask(id))
   }
 
+  const formatDateTime = (timestamp: number | undefined) => {
+    if (typeof timestamp === "undefined") {
+      return "N/A"
+    }
+    const date = new Date(timestamp)
+    return date.toDateString()
+  }
+
   useEffect(() => {
     if (id) {
       dispatch(fetchTasksById(id))
@@ -65,7 +73,7 @@ const TaskDetails = () => {
               <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt className="text-sm font-medium text-gray-500">Due Date</dt>
                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                  {selectedTask?.dueDate.substring(0, 10)}
+                  {formatDateTime(selectedTask?.dueDate)}
                 </dd>
               </div>
               <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

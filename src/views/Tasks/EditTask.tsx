@@ -12,9 +12,11 @@ import "react-tailwindcss-select/dist/index.css"
 const EditTask = () => {
   const dispatch = useAppDispatch()
   const { selectedTask } = useAppSelector((state) => state.task)
-  const { users } = useAppSelector((state) => state.user)
+  const { users, limit } = useAppSelector((state) => state.user)
+  const { userData } = useAppSelector((state) => state.auth)
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
+  const [currentPage, setCurrentPage] = useState<number>(1)
   const [selectedUser, setSelectedUser] = useState<any>(null)
   const [options, setOptions] = useState<any[]>([])
   const [formData, setFormData] = useState({
@@ -26,6 +28,9 @@ const EditTask = () => {
 
   const { id } = useParams()
 
+  const dueDate = selectedDate ? new Date(selectedDate) : null
+  const timestamp = dueDate ? dueDate.getTime() : null
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     const { status, details, dueDate, user } = formData
     if (!status || !details || !dueDate || !user || !id) return
@@ -34,7 +39,7 @@ const EditTask = () => {
       updateTask({
         status,
         details,
-        dueDate: selectedDate?.toISOString(),
+        dueDate: timestamp,
         user: selectedUser?.value,
         _id: id,
       }),
@@ -46,7 +51,7 @@ const EditTask = () => {
   }
 
   useEffect(() => {
-    dispatch(fetchUsers)
+    dispatch(fetchUsers({ page: currentPage, limit: 20 }))
     setOptions(users.map((user) => ({ value: user._id, label: user.name })))
   }, [])
 
@@ -56,22 +61,27 @@ const EditTask = () => {
         <h2 className="text-xl font-semibold mb-4">Edit Task Details</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <div className="w-full mb-2">
-              <label
-                className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                htmlFor="grid-last-name"
-              >
-                User
-              </label>
+            {userData?.role === "ADMIN" ? (
+              <div className="w-full mb-2">
+                <label
+                  className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                  htmlFor="grid-last-name"
+                >
+                  User
+                </label>
 
-              <Select
-                value={selectedUser}
-                onChange={handleChange}
-                options={options}
-                isSearchable={true}
-                primaryColor={"Indigo"}
-              />
-            </div>
+                <Select
+                  value={selectedUser}
+                  onChange={handleChange}
+                  options={options}
+                  isSearchable={true}
+                  primaryColor={"Indigo"}
+                />
+              </div>
+            ) : (
+              <></>
+            )}
+
             <label
               className="block mb-2 text-sm font-medium"
               htmlFor="grid-state"
@@ -117,6 +127,8 @@ const EditTask = () => {
               selected={selectedDate}
               onChange={(date: Date | null) => setSelectedDate(date)}
               className="text-black border rounded p-2"
+              showTimeSelect
+              dateFormat="Pp"
             />
           </div>
 

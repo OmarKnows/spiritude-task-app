@@ -4,16 +4,22 @@ import { useParams } from "react-router-dom"
 import { updateGroup } from "../../redux/features/groups/groupSlice"
 import Select from "react-tailwindcss-select"
 import "react-tailwindcss-select/dist/index.css"
-import { fetchUsers } from "../../redux/features/users/usersSlice"
+import {
+  fetchUsers,
+  populateDropdown,
+} from "../../redux/features/users/usersSlice"
 
 const EditGroup = () => {
   const dispatch = useAppDispatch()
   const { selectedGroup } = useAppSelector((state) => state.group)
-  const { users } = useAppSelector((state) => state.user)
+  const { users, limit, page, pages, total, loading } = useAppSelector(
+    (state) => state.user,
+  )
   const { id } = useParams()
 
   const [options, setOptions] = useState<any[]>([])
   const [groupMembers, setGroupMembers] = useState<any[] | null>(null)
+  const [currentPage, setCurrentPage] = useState(1)
   const [formData, setFormData] = useState({
     name: selectedGroup?.name,
     description: selectedGroup?.description,
@@ -37,10 +43,38 @@ const EditGroup = () => {
     setGroupMembers(value)
   }
 
+  const handleScroll = () => {
+    console.log("please")
+    if (
+      window.innerHeight + document.documentElement.scrollTop !==
+        document.documentElement.offsetHeight ||
+      loading
+    ) {
+      const nextPage = currentPage + 1
+      console.log("first")
+      setCurrentPage(nextPage)
+      dispatch(populateDropdown({ page: nextPage, limit }))
+      return
+    }
+  }
+
   useEffect(() => {
-    dispatch(fetchUsers)
-    setOptions(users.map((user) => ({ value: user._id, label: user.name })))
+    dispatch(populateDropdown({ page: currentPage, limit }))
   }, [])
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll)
+
+    const newOptions = users.map((user) => ({
+      value: user._id,
+      label: user.name,
+    }))
+    setOptions((prevOptions) => [...prevOptions, ...newOptions])
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+    }
+  }, [users])
 
   return (
     <div className="w-[85vw] ml-[15vw]">

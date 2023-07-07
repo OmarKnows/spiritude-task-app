@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { useAppDispatch } from "../../redux/hook"
 import { addUser } from "../../redux/features/users/usersSlice"
+import Message from "../../components/Message"
 
 const CreateUser = () => {
   const dispatch = useAppDispatch()
@@ -9,17 +10,23 @@ const CreateUser = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [role, setRole] = useState("USER")
+  const [success, setSuccess] = useState<boolean>(false)
 
   const submitHandler = (e: any) => {
     e.preventDefault()
-    dispatch(
-      addUser({
-        name,
-        email,
-        password,
-        role,
-      }),
-    )
+    try {
+      dispatch(
+        addUser({
+          name,
+          email,
+          password,
+          role,
+        }),
+      )
+      setSuccess(true)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
@@ -119,6 +126,15 @@ const CreateUser = () => {
           </button>
         </form>
       </div>
+      {success ? (
+        <Message
+          message={"User successfully created."}
+          color={"green"}
+          redirect={"/users"}
+        />
+      ) : (
+        <></>
+      )}
     </div>
   )
 }

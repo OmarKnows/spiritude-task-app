@@ -1,25 +1,35 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { Group } from "./groupModel"
 import groupServices from "./groupService"
-import { User } from "../users/userModel"
 
 interface GroupState {
   groups: Group[]
   selectedGroup?: Group
+  total: number
+  page: number
+  limit: number
+  pages: number
   loading: boolean
   error?: string
 }
 
 const initialState: GroupState = {
   groups: [],
+  total: 0,
+  page: 1,
+  limit: 10,
+  pages: 0,
   loading: false,
 }
 
-export const fetchGroups = createAsyncThunk<Group[]>(
+export const fetchGroups = createAsyncThunk(
   "groups/fetchGroups",
-  async () => {
+  async (pagination: { page: number; limit: number }) => {
     try {
-      const response = await groupServices.fetchGroups()
+      const response = await groupServices.fetchGroups(
+        pagination.page,
+        pagination.limit,
+      )
       return response
     } catch (error) {
       throw error
@@ -85,8 +95,8 @@ export const deleteGroup = createAsyncThunk(
   },
 )
 
-const userSlice = createSlice({
-  name: "users",
+const groupSlice = createSlice({
+  name: "groups",
   initialState,
   reducers: {},
   extraReducers(builder) {
@@ -98,11 +108,15 @@ const userSlice = createSlice({
       .addCase(fetchGroups.fulfilled, (state, action) => {
         state.loading = false
         state.error = undefined
-        state.groups = action.payload
+        state.groups = action.payload.data
+        state.total = action.payload.total
+        state.page = action.payload.page
+        state.limit = action.payload.limit
+        state.pages = action.payload.pages
       })
       .addCase(fetchGroups.rejected, (state, action) => {
         state.loading = false
-        state.error = action.error.message ?? "Failed to fetch group data"
+        state.error = action.error.message ?? "Failed to fetch user data"
       })
       .addCase(fetchGroupById.pending, (state) => {
         state.loading = true
@@ -159,4 +173,4 @@ const userSlice = createSlice({
   },
 })
 
-export default userSlice.reducer
+export default groupSlice.reducer

@@ -28,6 +28,7 @@ const App = () => {
     <div>
       <Router>
         {userData ? <Sidebar /> : <Navigate to="/" />}
+        <BreadCrumbs />
         <Routes>
           <Route path="/" element={<Login />} />
 

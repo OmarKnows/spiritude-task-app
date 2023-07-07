@@ -7,16 +7,16 @@ const getToken = (): string | null => {
   return userData ? userData.accessToken : null
 }
 
-const fetchUsers = async (): Promise<User[]> => {
+const fetchUsers = async (page: number, limit: number) => {
   const token = getToken()
 
-  const response = await axios.get("/users", {
+  const response = await axios.get(`/users?page=${page}&limit=${limit}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   })
 
-  return response.data.payload.data
+  return response.data.payload
 }
 
 const fetchUserById = async (id: string): Promise<User> => {

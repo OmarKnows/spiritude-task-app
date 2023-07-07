@@ -3,29 +3,40 @@ import { useAppDispatch, useAppSelector } from "../../redux/hook"
 import DatePicker from "react-datepicker"
 import "react-datepicker/dist/react-datepicker.css"
 import "tailwindcss/tailwind.css"
-import { addTask } from "../../redux/features/task/taskSlice"
 import Select from "react-tailwindcss-select"
 import "react-tailwindcss-select/dist/index.css"
 import { fetchUsers } from "../../redux/features/users/usersSlice"
+import { addTask } from "../../redux/features/task/taskSlice"
+import Message from "../../components/Message"
 
 const CreateTask = () => {
   const dispatch = useAppDispatch()
-  const { users } = useAppSelector((state) => state.user)
+  const { users, limit, error } = useAppSelector((state) => state.user)
 
   const [details, setDetails] = useState("")
   const [options, setOptions] = useState<any[]>([])
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [selectedUser, setSelectedUser] = useState<any>(null)
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [success, setSuccess] = useState<boolean>(false)
 
   const submitHandler = (e: any) => {
     e.preventDefault()
-    dispatch(
-      addTask({
-        user: selectedUser?.value,
-        dueDate: selectedDate?.toISOString(),
-        details,
-      }),
-    )
+    const dueDate = selectedDate ? new Date(selectedDate) : null
+    const timestamp = dueDate ? dueDate.getTime() : null
+
+    try {
+      dispatch(
+        addTask({
+          user: selectedUser?.value,
+          dueDate: timestamp,
+          details,
+        }),
+      )
+      setSuccess(true)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const handleChange = (value: any) => {
@@ -33,7 +44,7 @@ const CreateTask = () => {
   }
 
   useEffect(() => {
-    dispatch(fetchUsers)
+    dispatch(fetchUsers({ page: currentPage, limit }))
     setOptions(users.map((user) => ({ value: user._id, label: user.name })))
   }, [])
 
@@ -91,6 +102,8 @@ const CreateTask = () => {
                 selected={selectedDate}
                 onChange={(date: Date | null) => setSelectedDate(date)}
                 className="text-black border rounded p-2"
+                showTimeSelect
+                dateFormat="Pp"
               />
             </div>
           </div>
@@ -103,6 +116,15 @@ const CreateTask = () => {
           </button>
         </form>
       </div>
+      {success ? (
+        <Message
+          message={"Task successfully created."}
+          color={"green"}
+          redirect={"/tasks"}
+        />
+      ) : (
+        <></>
+      )}
     </div>
   )
 }

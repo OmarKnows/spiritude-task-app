@@ -10,6 +10,11 @@ interface Props {
 const TaskTable: React.FC<Props> = ({ tasks }) => {
   const navigate = useNavigate()
 
+  const formatDateTime = (timestamp: number) => {
+    const date = new Date(timestamp)
+    return date.toDateString()
+  }
+
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -43,7 +48,7 @@ const TaskTable: React.FC<Props> = ({ tasks }) => {
               <td className="px-6 py-4">
                 <StatusPill status={task.status} />
               </td>
-              <td className="px-6 py-4">{task.dueDate.substring(0, 10)}</td>
+              <td className="px-6 py-4">{formatDateTime(task.dueDate)}</td>
               <td className="px-6 py-4">{task.user.name}</td>
               <td className="px-6 py-4">{task.createdBy.name}</td>
             </tr>

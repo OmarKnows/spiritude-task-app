@@ -1,17 +1,25 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useAppDispatch, useAppSelector } from "../../redux/hook"
 import { fetchUsers } from "../../redux/features/users/usersSlice"
 import { useNavigate } from "react-router-dom"
 import UserTable from "../../components/UserTable"
+import Pagination from "../../components/Pagination"
 
 const Users = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const { users } = useAppSelector((state) => state.user)
+  const { users, total, page, limit, pages } = useAppSelector(
+    (state) => state.user,
+  )
+
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber)
+  }
 
   useEffect(() => {
-    dispatch(fetchUsers())
-  }, [])
+    dispatch(fetchUsers({ page: currentPage, limit }))
+  }, [currentPage])
 
   return (
     <div className="w-[85vw] ml-[15vw]">
@@ -30,6 +38,12 @@ const Users = () => {
       <div className="mx-3">
         <UserTable groupDetails={false} users={users} />
       </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={pages}
+        totalEntries={total}
+        onPageChange={handlePageChange}
+      />
     </div>
   )
 }

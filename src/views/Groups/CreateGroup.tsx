@@ -4,25 +4,33 @@ import { addGroup } from "../../redux/features/groups/groupSlice"
 import { fetchUsers } from "../../redux/features/users/usersSlice"
 import Select from "react-tailwindcss-select"
 import "react-tailwindcss-select/dist/index.css"
+import Message from "../../components/Message"
 
 const CreateGroup = () => {
   const dispatch = useAppDispatch()
-  const { users } = useAppSelector((state) => state.user)
+  const { users, limit } = useAppSelector((state) => state.user)
 
   const [name, setName] = useState("")
   const [description, setDescription] = useState("")
   const [groupMembers, setGroupMembers] = useState<any[] | null>(null)
   const [options, setOptions] = useState<any[]>([])
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const [success, setSuccess] = useState<boolean>(false)
 
   const submitHandler = (e: any) => {
     e.preventDefault()
-    dispatch(
-      addGroup({
-        users: groupMembers?.map((user) => user.value),
-        name,
-        description,
-      }),
-    )
+    try {
+      dispatch(
+        addGroup({
+          users: groupMembers?.map((user) => user.value),
+          name,
+          description,
+        }),
+      )
+      setSuccess(true)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const handleChange = (value: any) => {
@@ -30,7 +38,7 @@ const CreateGroup = () => {
   }
 
   useEffect(() => {
-    dispatch(fetchUsers)
+    dispatch(fetchUsers({ page: currentPage, limit }))
     setOptions(users.map((user) => ({ value: user._id, label: user.name })))
   }, [])
 
@@ -102,6 +110,15 @@ const CreateGroup = () => {
           </button>
         </form>
       </div>
+      {success ? (
+        <Message
+          message={"Group successfully created."}
+          color={"green"}
+          redirect={"/groups"}
+        />
+      ) : (
+        <></>
+      )}
     </div>
   )
 }

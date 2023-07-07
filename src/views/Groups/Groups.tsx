@@ -1,17 +1,26 @@
 import { useNavigate } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../redux/hook"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { fetchGroups } from "../../redux/features/groups/groupSlice"
 import GroupTable from "../../components/GroupTable"
+import Pagination from "../../components/Pagination"
 
 const Groups = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
-  const { groups } = useAppSelector((state) => state.group)
+  const { groups, total, page, limit, pages } = useAppSelector(
+    (state) => state.group,
+  )
+
+  const [currentPage, setCurrentPage] = useState<number>(1)
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber)
+  }
 
   useEffect(() => {
-    dispatch(fetchGroups())
-  }, [])
+    dispatch(fetchGroups({ page: currentPage, limit }))
+    console.log(groups)
+  }, [currentPage])
 
   return (
     <div className="w-[85vw] ml-[15vw]">
@@ -29,6 +38,12 @@ const Groups = () => {
       <div className="mx-3">
         <GroupTable groups={groups} />
       </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={pages}
+        totalEntries={total}
+        onPageChange={handlePageChange}
+      />
     </div>
   )
 }

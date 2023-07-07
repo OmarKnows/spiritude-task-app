@@ -8,16 +8,16 @@ const getToken = (): string | null => {
   return userData ? userData.accessToken : null
 }
 
-const fetchTasks = async (): Promise<Task[]> => {
+const fetchTasks = async (page: number, limit: number) => {
   const token = getToken()
 
-  const response = await axios.get("/tasks", {
+  const response = await axios.get(`/tasks?page=${page}&limit=${limit}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   })
 
-  return response.data.payload.data
+  return response.data.payload
 }
 
 const fetchTasksById = async (id: string): Promise<Task> => {
@@ -35,7 +35,7 @@ const fetchTasksById = async (id: string): Promise<Task> => {
 const addTask = async (
   user: string,
   details: string,
-  dueDate?: string,
+  dueDate?: number | null,
 ): Promise<Task> => {
   const token = getToken()
 
@@ -59,7 +59,7 @@ const addTask = async (
 const updateTask = async (task: {
   status?: "TODO" | "IN_PROGRESS" | "DONE" | "PENDING_DELETE"
   details?: string
-  dueDate?: string
+  dueDate?: number | null
   user?: string
   _id?: string
 }): Promise<Task> => {

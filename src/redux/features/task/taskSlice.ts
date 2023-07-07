@@ -1,27 +1,37 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { Task } from "./taskModel"
 import taskServices from "./taskService"
-import { User } from "../users/userModel"
 
 interface taskState {
   tasks: Task[]
   selectedTask?: Task
   tasksPastDue: boolean
+  total: number
+  page: number
+  limit: number
+  pages: number
   loading: boolean
   error?: string
 }
 
 const initialState: taskState = {
   tasks: [],
+  total: 0,
+  page: 1,
+  limit: 10,
+  pages: 0,
   tasksPastDue: false,
   loading: false,
 }
 
-export const fetchTasks = createAsyncThunk<Task[]>(
+export const fetchTasks = createAsyncThunk(
   "tasks/fetchTasks",
-  async () => {
+  async (pagination: { page: number; limit: number }) => {
     try {
-      const response = await taskServices.fetchTasks()
+      const response = await taskServices.fetchTasks(
+        pagination.page,
+        pagination.limit,
+      )
       return response
     } catch (error) {
       throw error
@@ -43,7 +53,11 @@ export const fetchTasksById = createAsyncThunk(
 
 export const addTask = createAsyncThunk(
   "tasks/addTasks",
-  async (taskData: { user: string; details: string; dueDate?: string }) => {
+  async (taskData: {
+    user: string
+    details: string
+    dueDate?: number | null
+  }) => {
     const { user, dueDate, details } = taskData
     try {
       const response = await taskServices.addTask(user, details, dueDate)
@@ -59,7 +73,7 @@ export const updateTask = createAsyncThunk(
   async (task: {
     status?: "TODO" | "IN_PROGRESS" | "DONE" | "PENDING_DELETE"
     details?: string
-    dueDate?: string
+    dueDate?: number | null
     user?: string
     _id?: string
   }) => {
@@ -109,7 +123,11 @@ const taskSlice = createSlice({
       .addCase(fetchTasks.fulfilled, (state, action) => {
         state.loading = false
         state.error = undefined
-        state.tasks = action.payload
+        state.tasks = action.payload.data
+        state.total = action.payload.total
+        state.page = action.payload.page
+        state.limit = action.payload.limit
+        state.pages = action.payload.pages
       })
       .addCase(fetchTasks.rejected, (state, action) => {
         state.loading = false
