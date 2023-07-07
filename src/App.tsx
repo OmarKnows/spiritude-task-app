@@ -20,6 +20,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom"
+import Home from "./views/Home"
 
 const App = () => {
   const { userData } = useAppSelector((state) => state.auth)
@@ -31,6 +32,7 @@ const App = () => {
         <BreadCrumbs />
         <Routes>
           <Route path="/" element={<Login />} />
+          <Route path="/home" element={<Home />} />
 
           <Route path="/users" element={<Users />} />
           <Route path="/users/:id" element={<UserDetails />} />
